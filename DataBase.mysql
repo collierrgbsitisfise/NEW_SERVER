@@ -1,0 +1,44 @@
+create database BlogDataBase
+
+use BlogDataBase;
+
+CREATE TABLE usersBlog (
+	user_id INT NOT NULL AUTO_INCREMENT,
+	login TEXT(100) NOT NULL,
+    passwordU TEXT(50) NOT NULL,
+	nick_name VARCHAR(40) NOT NULL,
+	PRIMARY KEY ( user_id )
+);
+
+CREATE TABLE postsBlog (
+	post_id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    text_post TEXT(10000) NOT NULL,
+    datePost BIGINT NOT NULL,
+    user_id INT NOT NULL,
+    post_rating INT NOT NULL,
+    PRIMARY KEY ( post_id ),
+    FOREIGN KEY (user_id) REFERENCES usersBlog(user_id)
+)
+ENGINE = Innodb;
+
+CREATE TABLE commentBlog (
+	comment_id INT NOT NULL AUTO_INCREMENT,
+    comment_text TEXT(1000) NOT NULL,
+    comment_rating INT NOT NULL,
+    user_id INT NOT NULL,
+    post_id INT NOT NULL,
+    PRIMARY KEY (comment_id),
+    FOREIGN KEY (post_id) REFERENCES postsBlog(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES usersBlog(user_id)
+)
+ENGINE = Innodb;
+
+CREATE TABLE ratingPost (
+	user_id INT NOT NULL,
+    post_id INT NOT NULL,
+    state boolean not null,
+	FOREIGN KEY (post_id) REFERENCES postsBlog(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES usersBlog(user_id)
+)
+ENGINE = Innodb;
